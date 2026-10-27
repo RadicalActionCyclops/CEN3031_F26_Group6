@@ -1,0 +1,28 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Development email output (contains verification tokens)
+*-email-outbox.jsonl
+
+# Node/Vite
+node_modules/
+dist/
+
+# Editor and operating system files
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,8 @@
+fastapi
+sqlalchemy
+uvicorn[standard]
+pytest
+pydantic-settings
+email-validator
+argon2-cffi
+httpx
