@@ -21,9 +21,27 @@ community discussions, and job opportunities into one UF-focused space.
 - **Testing:** Pytest
 - **Collaboration:** Git and GitHub
 
-The frontend communicates with FastAPI through a shared `/api` client. The
-backend is organized by feature, with separate models, schemas, routes, and
-services. Shared database and security tools live in `backend/app/core`.
+SwampSpace/
+├── backend/
+│   ├── app/
+│   │   ├── core/
+│   │   ├── features/
+│   │   │   ├── auth/
+│   │   │   ├── profiles/
+│   │   │   ├── messages/
+│   │   │   └── community/
+│   │   └── main.py
+│   ├── tests/
+│   └── requirements.txt
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   └── features/
+│   ├── package.json
+│   └── vite.config.js
+└── README.md
 
 ## Team
 
