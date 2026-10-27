@@ -21,6 +21,7 @@ community discussions, and job opportunities into one UF-focused space.
 - **Testing:** Pytest
 - **Collaboration:** Git and GitHub
 
+```text
 SwampSpace/
 ├── backend/
 │   ├── app/
@@ -42,6 +43,7 @@ SwampSpace/
 │   ├── package.json
 │   └── vite.config.js
 └── README.md
+```
 
 ## Team
 
