@@ -8,6 +8,7 @@ from sqlalchemy import Engine
 from app.core.config import Settings, get_settings
 from app.core.database import engine, initialize_database
 from app.features.auth.routes import router as auth_router
+from app.features.profiles.routes import router as profiles_router
 
 
 def create_app(
@@ -34,6 +35,7 @@ def create_app(
         allow_headers=["Content-Type", "X-CSRF-Token"],
     )
     application.include_router(auth_router)
+    application.include_router(profiles_router)
 
     @application.get("/api/health", tags=["health"])
     def health() -> dict[str, str]:
