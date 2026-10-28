@@ -51,7 +51,9 @@ export async function apiRequest(path, options = {}) {
 
   if (!response.ok) {
     throw new ApiError(
-      data?.detail || `Request failed with status ${response.status}`,
+      Array.isArray(data?.detail)
+        ? data.detail.map(item => `${item.loc?.slice(1).join('.') || 'Form'}: ${item.msg}`).join('; ')
+        : data?.detail || `Request failed with status ${response.status}`,
       response.status,
       data,
     )
