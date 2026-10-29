@@ -6,6 +6,8 @@ import { api } from './api/client'
 import Profile from './features/profiles/Profile'
 import EditProfile from './features/profiles/EditProfile'
 import MemberSearch from './features/profiles/MemberSearch'
+import Inbox from './features/messages/Inbox';
+import Chat from './features/messages/Chat';
 
 
 export default function App() {
@@ -46,7 +48,13 @@ export default function App() {
       <>
         <header className="site-header">
           <a className="brand" href="/">SwampSpace</a>
-          <nav aria-label="Main navigation"><a href="/profiles/me">My Profile</a><a href="/members">Find Members</a><button className="secondary" onClick={logout}>Log out</button></nav>
+          <nav aria-label="Main navigation">
+            <a href="/profiles/me">My Profile</a>
+            {/* Replaced <Link> with standard <a> tag to match your routing */}
+            <a href="/messages">Messages</a>
+            <a href="/members">Find Members</a>
+            <button className="secondary" onClick={logout}>Log out</button>
+          </nav>
         </header>
         <main>
           {sessionError && <p role="alert" className="error">{sessionError}</p>}
@@ -58,6 +66,11 @@ export default function App() {
               setAuthenticatedUser({ ...authenticatedUser, display_name: profile.full_name, affiliation: profile.status })
               setEditing(false)
             }} />
+          // Injected the Messages routes into your conditional rendering block
+          ) : window.location.pathname === '/messages' ? (
+            <Inbox />
+          ) : window.location.pathname.startsWith('/messages/') ? (
+            <Chat userId={window.location.pathname.split('/')[2]} />
           ) : window.location.pathname === '/members' ? <MemberSearch /> : (
             <Profile user={authenticatedUser} userId={window.location.pathname.startsWith('/profiles/') ? window.location.pathname.split('/')[2] === 'me' ? null : window.location.pathname.split('/')[2] : null} onEdit={profile => { setEditProfile(profile); setEditing(true) }} savedProfile={savedProfile} />
           )}
