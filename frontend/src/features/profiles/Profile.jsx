@@ -3,7 +3,10 @@ import { api } from '../../api/client'
 
 export default function Profile({ user, userId, onEdit, savedProfile }) {
   const [state, setState] = useState({ loading: true })
+  
+  // This variable determines if the user is looking at their own profile
   const own = !userId || userId === user.id
+  
   useEffect(() => {
     let active = true
     setState({ loading: true })
@@ -12,7 +15,9 @@ export default function Profile({ user, userId, onEdit, savedProfile }) {
       .catch(error => { if (active) setState({ error }) })
     return () => { active = false }
   }, [userId, own, savedProfile])
+  
   if (state.loading) return <p role="status">Loading profile…</p>
+  
   if (state.error) return (
     <section className="panel">
       <h1>{state.error.status === 404 ? (own ? 'Introduce yourself' : 'Profile not found') : 'Unable to load profile'}</h1>
@@ -21,7 +26,9 @@ export default function Profile({ user, userId, onEdit, savedProfile }) {
       <p><a href="/members">Find members</a></p>
     </section>
   )
+  
   const { profile } = state
+  
   return (
     <section className="panel profile">
       <p className="eyebrow">UF community member</p>
@@ -32,6 +39,10 @@ export default function Profile({ user, userId, onEdit, savedProfile }) {
       {savedProfile?.user_id === profile.user_id && <p role="status" className="success">Your profile was saved.</p>}
       <div className="actions">
         {own && <button onClick={() => onEdit(profile)}>Edit profile</button>}
+        
+        {/* ADDED: Only shows the Message button if it is NOT their own profile */}
+        {!own && <button onClick={() => window.location.assign(`/messages/${profile.user_id}`)}>Message</button>}
+        
         <a href="/members">Explore members</a>
       </div>
     </section>
