@@ -45,9 +45,11 @@ export async function apiRequest(path, options = {}) {
 
   const response = await fetch(apiPath(path), requestOptions)
   const contentType = response.headers.get('content-type') || ''
-  const data = contentType.includes('application/json')
-    ? await response.json()
-    : null
+    const data = response.status === 204
+        ? null
+        : contentType.includes('application/json')
+            ? await response.json()
+            : null
 
   if (!response.ok) {
     throw new ApiError(

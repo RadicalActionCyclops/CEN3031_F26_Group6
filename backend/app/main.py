@@ -9,6 +9,7 @@ from app.core.config import Settings, get_settings
 from app.core.database import engine, initialize_database
 from app.features.auth.routes import router as auth_router
 from app.features.profiles.routes import router as profiles_router
+from app.features.community.routes import router as community_router
 from app.features.messages.routes import router as messages_router
 
 
@@ -37,6 +38,7 @@ def create_app(
     )
     application.include_router(auth_router)
     application.include_router(profiles_router)
+    application.include_router(community_router)
     application.include_router(messages_router)
 
     @application.get("/api/health", tags=["health"])
