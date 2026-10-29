@@ -6,6 +6,8 @@ import { api } from './api/client'
 import Profile from './features/profiles/Profile'
 import EditProfile from './features/profiles/EditProfile'
 import MemberSearch from './features/profiles/MemberSearch'
+import Inbox from './features/messages/Inbox'
+import Chat from './features/messages/Chat'
 import Feed from './features/community/Feed'
 
 
@@ -50,6 +52,7 @@ export default function App() {
                     <nav aria-label="Main navigation">
                         <a href="/community">Community</a>
                         <a href="/profiles/me">My Profile</a>
+                        <a href="/messages">Messages</a>
                         <a href="/members">Find Members</a>
                         <button className="secondary" onClick={logout}>Log out</button>
                     </nav>
@@ -71,24 +74,31 @@ export default function App() {
                                 setAuthenticatedUser({ ...authenticatedUser, display_name: profile.full_name, affiliation: profile.status })
                                 setEditing(false)
                             }} />
-                        ) : window.location.pathname === '/community' ? <Feed userId={authenticatedUser.id} /> :
-                                window.location.pathname === '/members' ? <MemberSearch /> : (
-                                    <Profile
-                                        user={authenticatedUser}
-                                        userId={
-                                            window.location.pathname.startsWith('/profiles/')
-                                                ? window.location.pathname.split('/')[2] === 'me'
-                                                    ? null
-                                                    : window.location.pathname.split('/')[2]
-                                                : null
-                                        }
-                                        onEdit={profile => {
-                                            setEditProfile(profile)
-                                            setEditing(true)
-                                        }}
-                                        savedProfile={savedProfile}
-                                    />
-                        )}
+                    ) : window.location.pathname === '/community' ? (
+                            <Feed userId={authenticatedUser.id} />
+                    ) : window.location.pathname === '/messages' ? (
+                        <Inbox />
+                    ) : window.location.pathname.startsWith('/messages/') ? (
+                        <Chat userId={window.location.pathname.split('/')[2]} />
+                    ) : window.location.pathname === '/members' ? (
+                            <MemberSearch />
+                    ) : (
+                            <Profile
+                                user={authenticatedUser}
+                                userId={
+                                    window.location.pathname.startsWith('/profiles/')
+                                        ? window.location.pathname.split('/')[2] === 'me'
+                                            ? null
+                                            : window.location.pathname.split('/')[2]
+                                        : null
+                                }
+                                onEdit={profile => {
+                                    setEditProfile(profile)
+                                    setEditing(true)
+                                }}
+                                savedProfile={savedProfile}
+                            />
+                    )}
                 </main>
             </>
         )
