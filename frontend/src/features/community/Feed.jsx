@@ -45,16 +45,12 @@ export default function Feed({ userId }) {
     async function handleSave(postId) {
         const originalPost = posts.find(post => post.id === postId)
         // Trim surrounding whitespace, except for leading tabs
-        const trimmedContent = editedContent
-            .replace(/^[ \b\f\n\r]+/, '')
-            .replace(/[ \b\f\n\r\t]+$/, '')
+        const trimmedContent = editedContent.replace(/^(?:[^\S\t])+/u, '').trimEnd()
 
         if (!trimmedContent) {
             setError('Post cannot be empty.')
             return
-        } else if (!originalPost || trimmedContent === originalPost.content
-            .replace(/^[ \b\f\n\r]+/, '')
-            .replace(/[ \b\f\n\r\t]+$/, ''))
+        } else if (!originalPost || trimmedContent === originalPost.content.replace(/^(?:[^\S\t])+/u, '').trimEnd())
             return
 
         setSavingEdit(true)
@@ -175,12 +171,8 @@ export default function Feed({ userId }) {
                                         <button
                                             type="button"
                                             onClick={() => handleSave(post.id)}
-                                            disabled={savingEdit || editedContent
-                                                .replace(/^[ \b\f\n\r]+/, '')
-                                                .replace(/[ \b\f\n\r\t]+$/, '')
-                                                === post.content
-                                                    .replace(/^[ \b\f\n\r]+/, '')
-                                                    .replace(/[ \b\f\n\r\t]+$/, '')}
+                                            disabled={savingEdit || editedContent.replace(/^(?:[^\S\t])+/u, '').trimEnd()
+                                                === post.content.replace(/^(?:[^\S\t])+/u, '').trimEnd()}
                                         >
                                             {savingEdit ? 'Saving...' : 'Save'}
                                         </button>

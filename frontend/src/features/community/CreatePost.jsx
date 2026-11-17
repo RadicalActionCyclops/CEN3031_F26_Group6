@@ -10,7 +10,7 @@ export default function CreatePost({ onCreated }) {
         event.preventDefault()
 
         // Trims surrounding whitespaces while allowing for leading paragraph indentations
-        const trimmedContent = content.replace(/^[ \b\f\n\r]+/, '').replace(/[ \b\f\n\r\t]+$/, '')
+        const trimmedContent = content.replace(/^(?:[^\S\t])+/u, '').trimEnd()
         if (!trimmedContent) {
             setError('Post content cannot be empty.')
             return
